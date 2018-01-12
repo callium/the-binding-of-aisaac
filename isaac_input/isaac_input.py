@@ -49,9 +49,8 @@ def random_shot():
 
 def main():
     wc.make_active_window()
-    time.sleep(.25)
+    time.sleep(1)
     unpause()
-    time.sleep(.25)
     while(True):
         if(wc.get_active_window() == APP_NAME):
             random_shot()
