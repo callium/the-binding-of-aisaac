@@ -17,12 +17,12 @@ class IsaacAgent:
         # Tracks isaac's movement, used in movement logic
         self.isMoving = False
         if(self.isPaused):
-            self.unpause
+            self.unpause()
 
     # Run this when the game is first launched to get to the the home page
     def unpause(self):
-        if(wc.get_active_window() == APP_NAME):
-            pyautogui.press('space')
+        if(wc.get_active_window() == self.APP_NAME):
+            pyautogui.press('esc')
             self.isPaused = False
 
     # Handles the movement login for random movement
@@ -46,16 +46,12 @@ class IsaacAgent:
         move_dir = random.randint(0, 4)
         if(move_dir == 0): # Up movement
             pyautogui.keyDown('w')
-            self.key_log('w DOWN')
         if(move_dir == 1): # Down movement
             pyautogui.keyDown('s')
-            self.key_log('s DOWN')
         if(move_dir == 2): # Left movement
             pyautogui.keyDown('a')
-            self.key_log('a DOWN')
         if(move_dir == 3): # Right movement
             pyautogui.keyDown('d')
-            self.key_log('d DOWN')
         if(move_dir == 4): # No movement
             pass
 
@@ -82,16 +78,12 @@ class IsaacAgent:
     def deliberate_shot(self, direction):
         pass
 
-    # Prints a key_log
-    def key_log(self, value):
-        print("Key Log:", value)
-
 
 # This will be moved out of the agent class later
 def main():
-    wc.open_isaac()
+    # wc.open_isaac()
     wc.make_active_window()
-    time.sleep(1)
+    time.sleep(2)
 
     isaac_agent = IsaacAgent()
 
@@ -99,7 +91,7 @@ def main():
     while(True):    
         if(wc.get_active_window() == isaac_agent.APP_NAME):
             if(isaac_agent.isPaused):
-                isaac_agent.unpause
+                isaac_agent.unpause()
             else:
                 isaac_agent.random_movement()
                 isaac_agent.random_shot()
