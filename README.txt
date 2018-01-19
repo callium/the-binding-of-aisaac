@@ -5,6 +5,8 @@ An experiment implementing machine learning to play The Binding of Isaac Afterbi
 ## Instructions
 * must own The Binding of Isaac Afterbirth+ (on Steam)
 * at the moment, this only works on MacOS due to system commands
+* relies on luasockets which can be installed on a mac by
+    luarocks install luasocket
 
 Copy the /aimod folder into '~/Library/Application Support/Binding of Isaac Afterbirth+ Mods' folder
 
