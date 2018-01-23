@@ -1,0 +1,11 @@
+---
+---
+
+$offwhite: hsl(0, 0%, 98%);
+$offblack: hsl(0, 0%, 8%);
+
+html, body {
+    background: $offwhite !important;
+    color: $offblack !important;
+    font-family: 'Quicksand', sans-serif !important;
+}
