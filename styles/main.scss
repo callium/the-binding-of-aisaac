@@ -1,11 +1,46 @@
 ---
 ---
 
-$offwhite: hsl(0, 0%, 98%);
+$offwhite: hsl(0, 0%, 99%);
 $offblack: hsl(0, 0%, 8%);
+$headerBackground: hsl(157, 38%, 55%);
+$headerBorder: hsl(157, 38%, 10%);
 
 html, body {
     background: $offwhite !important;
     color: $offblack !important;
     font-family: 'Quicksand', sans-serif !important;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: $offblack;
+    color: $offwhite;
+    height: 60px;
+    margin-bottom: 100px;
+    position: relative;
+    .skew {
+        background: $offblack;
+        height: 90px;
+        width: 100%;
+        position: absolute;
+        top: 10px;
+        -webkit-transform: skewY(-2.5deg);
+        h1 {
+            padding: 20px;
+            margin: 0;
+            -webkit-transform: skewY(2.5deg);
+            @media (max-width: 450px) {
+                font-size: 30px;
+                text-align: center;
+            }
+        }
+    }
+}
+
+.information {
+    p {
+        text-align: center;
+    }
 }
