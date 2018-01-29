@@ -1,10 +1,17 @@
 ---
 ---
 
+// Fonts
+@font-face {
+    font-family: "Operator";
+    src: url("/fonts/OperatorMono-LightItalic.otf") format("opentype");
+}
+
 $offwhite: hsl(0, 0%, 99%);
 $offblack: hsl(0, 0%, 8%);
 $headerBackground: hsl(157, 38%, 55%);
 $headerBorder: hsl(157, 38%, 10%);
+$codeColor: hsl(0, 0%, 30%);
 
 html, body {
     background: $offwhite !important;
@@ -40,7 +47,18 @@ header {
 }
 
 .information {
-    p {
+    h2 {
         text-align: center;
     }
+    h3 {
+        text-align: left;
+    }
 }
+
+p.code {
+    text-align: left;
+    color: $codeColor;
+    font-family: 'Operator';
+    font-size: 16px;
+}
+
