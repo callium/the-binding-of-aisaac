@@ -1,4 +1,5 @@
 -- Isaac Modding Reference Guide => https://moddingofisaac.com/docs/annotated.html
+-- I've tested using a MacOS Symlink, however I've found that you just have to copy the updated mod into the mods folder
 
 -- Register the mod
 local aiMod = RegisterMod("AIMod", 1)
@@ -6,8 +7,11 @@ local aiMod = RegisterMod("AIMod", 1)
 -- Get the player Entity
 local player = Isaac.GetPlayer(1)
 
--- Create the TCP Client/Socket
-local client = require("client")
+function aiMod:startTCP()
+    -- Start the TCP Server
+    client = require("client")
+    client.send("Hello, From Isaac")
+end
 
 function aiMod:render()
     -- Renders the mod running text at the top.
@@ -26,7 +30,7 @@ function aiMod:getTime()
     return time
 end
 
-function aiMod::getHealth()
+function aiMod:getHealth()
     -- Get total number of isaac health (not sure where this will be used)
     local heartNum = player.GetHearts()
 
@@ -35,10 +39,10 @@ function aiMod::getHealth()
     return heartNum
 end
 
-function aiMod::isaacHit()
+function aiMod:isaacHit()
     -- Call this function once isaac is hit
 end
 
 -- Add the callback (Tells the mod what to do)
 aiMod:AddCallback(ModCallbacks.MC_POST_RENDER, aiMod.render)
-aiMod:AddCallback(ModCallbacks.MC_POST_RENDER, aiMod.health)
+aiMod:AddCallback(ModCallbacks.MC_POST_RENDER, aiMod.startTCP)
