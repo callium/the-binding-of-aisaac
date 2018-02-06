@@ -1,18 +1,12 @@
 ---
 ---
 
-// Fonts
-@font-face {
-    font-family: "Operator";
-    src: url("/the-binding-of-aisaac/fonts/OperatorMono-LightItalic.otf") format("opentype");
-    src: url("/fonts/OperatorMono-LightItalic.otf") format("opentype");
-}
-
 $offwhite: hsl(0, 0%, 99%);
 $offblack: hsl(0, 0%, 8%);
 $headerBackground: hsl(157, 38%, 55%);
 $headerBorder: hsl(157, 38%, 10%);
 $codeColor: hsl(0, 0%, 30%);
+$codeFont: 'Inconsolata', monospace;
 
 html, body {
     background: $offwhite !important;
@@ -59,7 +53,7 @@ header {
 p.code {
     text-align: left;
     color: $codeColor;
-    font-family: 'Operator';
+    font-family: $codeFont;
     font-size: 16px;
 }
 

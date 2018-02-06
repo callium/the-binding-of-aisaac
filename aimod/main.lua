@@ -45,4 +45,8 @@ end
 
 -- Add the callback (Tells the mod what to do)
 aiMod:AddCallback(ModCallbacks.MC_POST_RENDER, aiMod.render)
-aiMod:AddCallback(ModCallbacks.MC_POST_RENDER, aiMod.startTCP)
+
+
+-- Trying out the functions without a callback
+Isaac.ConsoleOutput("Hello, World!")
+Isaac.ConsoleOutput(player)
