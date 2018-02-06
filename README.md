@@ -10,8 +10,11 @@ An experiment implementing machine learning to play The Binding of Isaac Afterbi
 
 Copy the /aimod folder into '~/Library/Application Support/Binding of Isaac Afterbirth+ Mods' folder
 
-Install Python 3.6 and run the isaac_agent.py file
+In Steam, go to 'The Binding of Isaac Afterbirth +' Properties, Set Launch Options, and add the following:
+    --luadebug
+For some reason this is needed to allow the luasocket to work
 
+Install Python 3.6 and run the isaac_agent.py file
 
 At the moment, the program is a little buggy (may take some fiddling to get the game working)
 

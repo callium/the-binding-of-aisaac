@@ -7,11 +7,9 @@ local aiMod = RegisterMod("AIMod", 1)
 -- Get the player Entity
 local player = Isaac.GetPlayer(1)
 
-function aiMod:startTCP()
-    -- Start the TCP Server
-    client = require("client")
-    client.send("Hello, From Isaac")
-end
+-- Create the client (running the game with '--luadebug' seemed to sove the issue)
+local client = require("client")
+Isaac.ConsoleOutput("MOD WORKING")
 
 function aiMod:render()
     -- Renders the mod running text at the top.
@@ -45,8 +43,3 @@ end
 
 -- Add the callback (Tells the mod what to do)
 aiMod:AddCallback(ModCallbacks.MC_POST_RENDER, aiMod.render)
-
-
--- Trying out the functions without a callback
-Isaac.ConsoleOutput("Hello, World!")
-Isaac.ConsoleOutput(player)
