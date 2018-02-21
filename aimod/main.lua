@@ -6,6 +6,7 @@ local aiMod = RegisterMod("AIMod", 1)
 
 -- Get the player Entity
 local player = Isaac.GetPlayer(1)
+local playerEntity = EntityType.ENTITY_PLAYER
 
 -- Create the client (running the game with '--luadebug' seemed to sove the issue)
 local client = require("client")
@@ -22,7 +23,6 @@ function aiMod:getTime()
     -- Say, if the player stays in the first room for 5 seconds
     -- the program will hold 'r' to refresh
     local time = Isaac.GetTime()
-
     -- Render the time to the screen (not necessary)
     -- Isaac.RenderText(time, 100, 25, 255, 255, 255, 5)
     return time
@@ -32,6 +32,9 @@ function aiMod:getHealth()
     -- Get total number of isaac health (not sure where this will be used)
     local heartNum = player.GetHearts()
 
+    -- Send the number of hearts to the server
+    client.send(heartNum)
+
     -- Render the number of hearts to the screen (for debugging)
     Isaac.RenderText("Hearts: " .. heartNum, 100, 25, 255, 255, 255, 5)
     return heartNum
@@ -39,7 +42,11 @@ end
 
 function aiMod:isaacHit()
     -- Call this function once isaac is hit
+        Isaac.DebugString("[DEBUG] Isaac Took a Hit")
+    -- Send data to the server
+    client.send('takehit')
 end
 
 -- Add the callback (Tells the mod what to do)
 aiMod:AddCallback(ModCallbacks.MC_POST_RENDER, aiMod.render)
+aiMod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, aiMod.isaacHit, EntityType.ENTITY_PLAYER)
