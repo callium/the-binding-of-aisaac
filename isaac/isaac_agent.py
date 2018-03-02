@@ -3,6 +3,7 @@ import time
 import random
 import threading
 import window_controls as wc
+import genetics.py
 
 # The Isaac Agent Class
 class IsaacAgent:
