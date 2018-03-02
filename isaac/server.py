@@ -1,3 +1,6 @@
+# As of right now, a standalone tcp server, but will be intergrated with the agent.
+print("TCP Server Started...\nLooking for a connection...")
+
 import socket
 TCP_IP = '127.0.0.1'
 TCP_PORT = 5005
@@ -13,5 +16,4 @@ while 1:
     data = conn.recv(BUFFER_SIZE)
     if not data: break
     print ("Received Data:", data)
-    conn.send(data)
     

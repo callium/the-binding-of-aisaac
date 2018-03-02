@@ -1,12 +1,13 @@
 # Here is the basic genetic information
 
-class Gene:
+class Frame:
     # A shapshot of the run
     def __init__(self):
         # A tuple
         self.player_location = (0, 0)
 
-        # A list of tuples
+        # A list of tuples containing enemy locations, one for each enemy
+        # May change this later depending on if I set a static number of enemies
         self.enemy_locations = [(0, 0)]
 
         # Integer
@@ -23,13 +24,20 @@ class Gene:
         self.times_dealt_damage = times_dealt_damage
 
 
-class Genome:
-    # All the genes for a given run
+class Gene:
+    # All the frames for a given run
+    # Will need to calculate the fitness for a gene as well.
+
     def __init__(self):
-        # A list of genes
-        self.genes = []
+        # A list of frames
+        self.frames = []
     
-    def add_gene(gene):
-        # Append a new gene to the genome
-        self.genes.append(gene)
+    def add_frame(frame):
+        # Append a new frame to the gene
+        self.frames.append(gene)
+
+
+class Genome:
+    # A set of genes.
+    pass
     

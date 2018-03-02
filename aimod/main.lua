@@ -42,7 +42,7 @@ end
 
 function aiMod:isaacHit()
     -- Call this function once isaac is hit
-        Isaac.DebugString("[DEBUG] Isaac Took a Hit")
+    Isaac.DebugString("[DEBUG] Isaac hit... Sending message...")
     -- Send data to the server
     client.send('takehit')
 end
