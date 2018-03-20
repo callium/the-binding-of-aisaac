@@ -3,7 +3,7 @@ import time
 import random
 import threading
 import window_controls as wc
-import genetics.py
+import genetics
 
 # The Isaac Agent Class
 class IsaacAgent:
@@ -13,12 +13,17 @@ class IsaacAgent:
     end_time = None
     isPaused = True
 
+    # Will be used to create a deliberate agent
+    album = None
+
     # Initialize the object
-    def _init_(self):
+    def _init_(self, **kwargs):
         # Tracks isaac's movement, used in movement logic
         self.isMoving = False
         if(self.isPaused):
             self.unpause()
+        
+        self.album = kwargs
 
     # Run this when the game is first launched to get to the the home page
     def unpause(self):
@@ -79,26 +84,19 @@ class IsaacAgent:
     def deliberate_shot(self, direction):
         pass
 
+    # Initial Random Sequence
+    def random_sequence(self):
+        # This loop controls the normal movement/shooting
+        while(True):    
+            if(wc.get_active_window() == isaac_agent.APP_NAME):
+                if(self.isPaused):
+                    self.unpause()
+                else:
+                    self.random_movement()
+                    self.random_shot()
+            else: # Navigated away from isaac
+                self.isPaused = True
 
-# This will be moved out of the agent class later
-def main():
-    # wc.open_isaac()
-    wc.make_active_window()
-    time.sleep(2)
-
-    isaac_agent = IsaacAgent()
-
-    # This loop controls the normal movement/shooting
-    while(True):    
-        if(wc.get_active_window() == isaac_agent.APP_NAME):
-            if(isaac_agent.isPaused):
-                isaac_agent.unpause()
-            else:
-                isaac_agent.random_movement()
-                isaac_agent.random_shot()
-        else: # Navigated away from isaac
-            isaac_agent.isPaused = True
-
-
-if __name__ == "__main__":
-    main()
+    # reads data from an album an controls with it
+    def controlled_sequence(self):
+        pass

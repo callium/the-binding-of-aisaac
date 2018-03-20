@@ -1,5 +1,6 @@
 # Here is a testing playground
 import genetics as gen
+import server
 
 # Try and create a frame(will be done every x seconds), then
 # add that frame to the current gene(or run in the game)
@@ -13,11 +14,17 @@ def test_frames_and_genes():
     test_gene.add_frame(test_frame)
     test_gene.print_gene()
 
+def test_album():
+    a = gen.Album()
+
 
 def main():
-    test_frames_and_genes()
+    # test_frames_and_genes()
+    test_album()
+    server.start_server() # Required to listen to the game
     
 
 if __name__ == "__main__":
     main()
+
 

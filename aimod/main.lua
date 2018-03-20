@@ -37,6 +37,9 @@ function aiMod:getHealth()
 
     -- Render the number of hearts to the screen (for debugging)
     Isaac.RenderText("Hearts: " .. heartNum, 100, 25, 255, 255, 255, 5)
+
+    client.send('health ' .. heartNum)
+
     return heartNum
 end
 
@@ -47,6 +50,25 @@ function aiMod:isaacHit()
     client.send('takehit')
 end
 
+-- Send a constant stream of player location to the python program
+function aiMod:getPlayerLocation()
+    player_x = 0
+    player_y = 0
+
+    -- Actually get the locations
+
+    client.send('player_location ' .. player_x .. ' ' .. player_y)
+end
+
+-- Sends a constant stream of data to the album
+function aiMod:getEnemyLocations()
+    client.send('enemy_location ')
+end
+
 -- Add the callback (Tells the mod what to do)
 aiMod:AddCallback(ModCallbacks.MC_POST_RENDER, aiMod.render)
+aiMod:AddCallback(ModCallbacks.MC_POST_RENDER, aiMod.getPlayerLocation)
+aiMod:AddCallback(ModCallbacks.MC_POST_RENDER, aiMod.getEnemyLocations)
+aiMod:AddCallback(ModCallbacks.MC_POST_RENDER, aiMod.getHealth)
+
 aiMod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, aiMod.isaacHit, EntityType.ENTITY_PLAYER)
