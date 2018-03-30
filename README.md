@@ -19,13 +19,12 @@ As of right now, the beats I plan to collect are:
     player_location # The X & Y coordinate location of the player
     enemy_locations # The X & Y coordinates of all enemies in the room
         is enemy above => bool
+        is enemy below => bool
         is enemy to the right => bool
         is enemy to the left => bool
-        is enemy below => bool
-        is enemy close => bool
 
-Tensorflow will take the six points of data along with training data to hopefully produce results
-There will be 6 input points of data (move_dir, shot_dir, enem_abov, enem_belo, enem_left, enem_righ)
+Tensorflow will take the four points of data and hopefully produce the expected results.
+There will be 4 input points of data [enemy above, enemy below, enemy left, enemy right] and produce the expected shot & movement direction
 
 ## Instructions
 * must own The Binding of Isaac Afterbirth+ (on Steam)
