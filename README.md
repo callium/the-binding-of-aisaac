@@ -10,22 +10,22 @@ The beats will be collected every X seconds. I have yet to determine what time f
 
 All of the genetic information is found in "genetics.py". Sorry if the names are confusing...
 
-As of right now, the beats I plan to collect are: 
+As of right now, the beats I plan to collect are:  
     
-    movement_direction # Which direction the player is moving which can be used to determine if the player is moving towards or away from an enemy
+    movement_direction # Which direction the player is moving which can be used to determine if the player is moving towards or away from an enemy => integer
     
-    shot_direction # Same principle as movement direction, but with the damage dealing component of the agent
+    shot_direction # Same principle as movement direction, but with the damage dealing component of the agent => integer
 
     player_location # The X & Y coordinate location of the player
-
     enemy_locations # The X & Y coordinates of all enemies in the room
+        is enemy above => bool
+        is enemy to the right => bool
+        is enemy to the left => bool
+        is enemy below => bool
+        is enemy close => bool
 
-The points of data extrapolated for the beats are being referred to as notes. These notes are what the fitness algorithm will use to determine how well the agent did (these will reward fitness points):
-
-    enemy_shot_at # Boolean, was the enemy shot at?
-
-    agent_not_in_contact_with_enemy # Boolean, was the agent avoiding an enemy?
-
+Tensorflow will take the six points of data along with training data to hopefully produce results
+There will be 6 input points of data (move_dir, shot_dir, enem_abov, enem_belo, enem_left, enem_righ)
 
 ## Instructions
 * must own The Binding of Isaac Afterbirth+ (on Steam)

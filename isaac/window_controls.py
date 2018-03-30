@@ -1,3 +1,5 @@
+# Helper controls for the program
+
 import os
 from AppKit import NSWorkspace
 

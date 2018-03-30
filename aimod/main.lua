@@ -1,74 +1,39 @@
 -- Isaac Modding Reference Guide => https://moddingofisaac.com/docs/annotated.html
--- I've tested using a MacOS Symlink, however I've found that you just have to copy the updated mod into the mods folder
 
 -- Register the mod
 local aiMod = RegisterMod("AIMod", 1)
-
--- Get the player Entity
-local player = Isaac.GetPlayer(1)
-local playerEntity = EntityType.ENTITY_PLAYER
 
 -- Create the client (running the game with '--luadebug' seemed to sove the issue)
 local client = require("client")
 Isaac.ConsoleOutput("MOD WORKING")
 
-function aiMod:render()
-    -- Renders the mod running text at the top.
-    -- Will also render important data such as training inputs
+-- Shows that the mod is enabled and working
+function aiMod:showEnabled()
     Isaac.RenderText("AI Mod Enabled", 100, 5, 255, 255, 255, 5)
 end
 
-function aiMod:getTime()
-    -- Get the game time, this can be used to tell elapsed time
-    -- Say, if the player stays in the first room for 5 seconds
-    -- the program will hold 'r' to refresh
-    local time = Isaac.GetTime()
-    -- Render the time to the screen (not necessary)
-    -- Isaac.RenderText(time, 100, 25, 255, 255, 255, 5)
-    return time
-end
+-- Get the data to send to the NN
+function aiMod:gatherData()
+    -- Grab player location & enemy locations, determine if there is an enemy in each direction
+    local player = Isaac.GetPlayer(0)
+    local player_x = math.floor(player.Position.X)
+    local player_y = math.floor(player.Position.Y)
 
-function aiMod:getHealth()
-    -- Get total number of isaac health (not sure where this will be used)
-    local heartNum = player.GetHearts()
+    -- Get the enemies
+    local enemies = Isaac.GetRoomEntities()
 
-    -- Send the number of hearts to the server
-    client.send(heartNum)
+    -- [enemy above, enemy below, enemy left, enemy right, movement direction, shot direction]
+    local data = {"0", "0", "0", "0", "0", "0"}
 
-    -- Render the number of hearts to the screen (for debugging)
-    Isaac.RenderText("Hearts: " .. heartNum, 100, 25, 255, 255, 255, 5)
+    local to_send = table.concat(data, " ")
+    -- send data
+    client.send(to_send)
 
-    client.send('health ' .. heartNum)
-
-    return heartNum
-end
-
-function aiMod:isaacHit()
-    -- Call this function once isaac is hit
-    Isaac.DebugString("[DEBUG] Isaac hit... Sending message...")
-    -- Send data to the server
-    client.send('takehit')
-end
-
--- Send a constant stream of player location to the python program
-function aiMod:getPlayerLocation()
-    player_x = 0
-    player_y = 0
-
-    -- Actually get the locations
-
-    client.send('player_location ' .. player_x .. ' ' .. player_y)
-end
-
--- Sends a constant stream of data to the album
-function aiMod:getEnemyLocations()
-    client.send('enemy_location ')
+    -- Just render player location
+    local render_text = "Player X: " .. player_x .. " Player Y: " .. player_y
+    Isaac.RenderText(render_text, 100, 15, 255, 255, 255, 5)
 end
 
 -- Add the callback (Tells the mod what to do)
-aiMod:AddCallback(ModCallbacks.MC_POST_RENDER, aiMod.render)
-aiMod:AddCallback(ModCallbacks.MC_POST_RENDER, aiMod.getPlayerLocation)
-aiMod:AddCallback(ModCallbacks.MC_POST_RENDER, aiMod.getEnemyLocations)
-aiMod:AddCallback(ModCallbacks.MC_POST_RENDER, aiMod.getHealth)
-
-aiMod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, aiMod.isaacHit, EntityType.ENTITY_PLAYER)
+aiMod:AddCallback(ModCallbacks.MC_POST_RENDER, aiMod.showEnabled)
+aiMod:AddCallback(ModCallbacks.MC_POST_RENDER, aiMod.gatherData)

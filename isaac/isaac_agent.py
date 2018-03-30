@@ -1,25 +1,22 @@
+# This plays the game using physical oinputs
 import pyautogui
 import time
 import random
 import threading
 import window_controls as wc
-import genetics
 
 # The Isaac Agent Class
 class IsaacAgent:
     APP_NAME = "The Binding of Isaac Afterbirth+"
-    isMoving = False
-    move_time = None
-    end_time = None
-    isPaused = True
-
-    # Will be used to create a deliberate agent
-    album = None
 
     # Initialize the object
-    def _init_(self, **kwargs):
-        # Tracks isaac's movement, used in movement logic
+    def __init__(self, **kwargs):
+
         self.isMoving = False
+        self.move_time = None
+        self.end_time = None
+        self.isPaused = True
+        # Tracks isaac's movement, used in movement logic
         if(self.isPaused):
             self.unpause()
         
@@ -44,8 +41,17 @@ class IsaacAgent:
                 self.isMoving = False
 
     # Execute a deliberate movement
-    def deliberate_movement(self):
-        pass
+    def deliberate_movement(self, direction):
+        if(direction == 0): # Up movement
+            pyautogui.keyDown('w')
+        if(direction == 1): # Down movement
+            pyautogui.keyDown('s')
+        if(direction == 2): # Left movement
+            pyautogui.keyDown('a')
+        if(direction == 3): # Right movement
+            pyautogui.keyDown('d')
+        if(direction == 4): # No movement
+            pass
 
     # Start a movement
     def start_movement(self):
@@ -97,6 +103,6 @@ class IsaacAgent:
             else: # Navigated away from isaac
                 self.isPaused = True
 
-    # reads data from an album an controls with it
+    # probably wont be used
     def controlled_sequence(self):
         pass
