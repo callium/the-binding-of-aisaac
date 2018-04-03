@@ -31,3 +31,7 @@ Copy the /aimod folder into '~/Library/Application Support/Binding of Isaac Afte
 In Steam, go to 'The Binding of Isaac Afterbirth +' Properties, Set Launch Options, and add the following:
     --luadebug
 For some reason this is needed to allow the luasocket to work
+
+## Links
+
+Training Video: https://drive.google.com/file/d/18igoeZ2Sq-633DLYOIWtsxkdt9g1G7vg/view?usp=sharing
