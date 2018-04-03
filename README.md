@@ -34,4 +34,4 @@ For some reason this is needed to allow the luasocket to work
 
 ## Links
 
-Training Video: https://drive.google.com/file/d/18igoeZ2Sq-633DLYOIWtsxkdt9g1G7vg/view?usp=sharing
+Training Video: https://drive.google.com/file/d/17m-35vxboi-q3G1nC9qojVPJeRrAZuJA/view?usp=sharing
