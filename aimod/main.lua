@@ -60,7 +60,35 @@ function aiMod:gatherData()
         end
     end
 
-    -- Get movement & shot direction
+
+    -- Set movement direction value
+    if(Input.IsButtonPressed(Keyboard.KEY_W, 0)) then
+        data[5] = "1"
+    end
+    if(Input.IsButtonPressed(Keyboard.KEY_S, 0)) then
+        data[5] = "2"
+    end
+    if(Input.IsButtonPressed(Keyboard.KEY_A, 0)) then
+        data[5] = "3"
+    end
+    if(Input.IsButtonPressed(Keyboard.KEY_D, 0)) then
+        data[5] = "4"
+    end
+
+    -- Set shot direction value
+    if(Input.IsButtonPressed(Keyboard.KEY_UP, 0)) then
+        data[6] = "1"
+    end
+    if(Input.IsButtonPressed(Keyboard.KEY_DOWN, 0)) then
+        data[6] = "2"
+    end
+    if(Input.IsButtonPressed(Keyboard.KEY_LEFT, 0)) then
+        data[6] = "3"
+    end
+    if(Input.IsButtonPressed(Keyboard.KEY_RIGHT, 0)) then
+        data[6] = "4"
+    end
+
     local to_send = table.concat(data, " ")
     Isaac.RenderText(to_send, 100, 35, 255, 255, 255, 5) -- Render the sent array
     -- Isaac.ConsoleOutput(to_send)
