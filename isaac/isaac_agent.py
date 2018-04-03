@@ -1,8 +1,7 @@
 # This plays the game using physical oinputs
 import pyautogui
-import time
 import random
-import threading
+import time
 import window_controls as wc
 
 # The Isaac Agent Class
@@ -10,99 +9,49 @@ class IsaacAgent:
     APP_NAME = "The Binding of Isaac Afterbirth+"
 
     # Initialize the object
-    def __init__(self, **kwargs):
-
-        self.isMoving = False
-        self.move_time = None
-        self.end_time = None
+    def __init__(self):
         self.isPaused = True
-        # Tracks isaac's movement, used in movement logic
-        if(self.isPaused):
-            self.unpause()
-        
-        self.album = kwargs
 
     # Run this when the game is first launched to get to the the home page
     def unpause(self):
-        if(wc.get_active_window() == self.APP_NAME):
-            pyautogui.press('esc')
+        if(wc.get_active_window() == self.APP_NAME and self.isPaused == True):
             self.isPaused = False
-
-    # Handles the movement login for random movement
-    def random_movement(self):
-        if(self.isMoving == False):
-            self.move_time = random.randint(0, 100) / 100
-            self.end_time = time.time() + self.move_time
-            self.start_movement()
-            self.isMoving = True
-        else:
-            if(time.time() >= self.end_time):
-                self.end_movement()
-                self.isMoving = False
+            time.sleep(.5);
+            pyautogui.press('esc')
+        if(wc.get_active_window() != self.APP_NAME):
+            self.isPaused = True
 
     # Execute a deliberate movement
-    def deliberate_movement(self, direction):
-        if(direction == 0): # Up movement
-            pyautogui.keyDown('w')
-        if(direction == 1): # Down movement
-            pyautogui.keyDown('s')
-        if(direction == 2): # Left movement
-            pyautogui.keyDown('a')
-        if(direction == 3): # Right movement
-            pyautogui.keyDown('d')
-        if(direction == 4): # No movement
-            pass
-
-    # Start a movement
-    def start_movement(self):
-        move_dir = random.randint(0, 4)
-        if(move_dir == 0): # Up movement
-            pyautogui.keyDown('w')
-        if(move_dir == 1): # Down movement
-            pyautogui.keyDown('s')
-        if(move_dir == 2): # Left movement
-            pyautogui.keyDown('a')
-        if(move_dir == 3): # Right movement
-            pyautogui.keyDown('d')
-        if(move_dir == 4): # No movement
-            pass
-
-    # End the movement (after some time t)
-    def end_movement(self):
-        pyautogui.keyUp('w')
-        pyautogui.keyUp('s')
-        pyautogui.keyUp('a')
-        pyautogui.keyUp('d')
-
-    # Shoot in a random direction
-    def random_shot(self):
-        dir = random.randint(0, 3)
-        if(dir == 0):
-            pyautogui.press('up')
-        if(dir == 1):
-            pyautogui.press('down') 
-        if(dir == 2):
-            pyautogui.press('left')
-        if(dir == 3):
-            pyautogui.press('right')
+    def move(self, direction):
+        if(self.isPaused):
+            self.unpause()
+        else:     
+            if(direction == 0): # No movement
+                pass
+            if(direction == 1): # Up movement
+                pyautogui.press('w')
+            if(direction == 2): # Down movement
+                pyautogui.press('s')
+            if(direction == 3): # Left movement
+                pyautogui.press('a')
+            if(direction == 4): # Right movement
+                pyautogui.press('d')
+            
 
     # Execute deliberate shotting
-    def deliberate_shot(self, direction):
-        pass
+    def shoot(self, direction):
+        if(self.isPaused):
+            self.unpause()
+        else:
+            if(direction == 0): # No Shot
+                pass
+            if(direction == 1): # Down movement
+                pyautogui.press('up')
+            if(direction == 2): # Left movement
+                pyautogui.press('down')
+            if(direction == 3): # Left movement
+                pyautogui.press('left')
+            if(direction == 4): # Right movement
+                pyautogui.press('right')
 
-    # Initial Random Sequence
-    def random_sequence(self):
-        # This loop controls the normal movement/shooting
-        while(True):    
-            if(wc.get_active_window() == isaac_agent.APP_NAME):
-                if(self.isPaused):
-                    self.unpause()
-                else:
-                    self.random_movement()
-                    self.random_shot()
-            else: # Navigated away from isaac
-                self.isPaused = True
 
-    # probably wont be used
-    def controlled_sequence(self):
-        pass
