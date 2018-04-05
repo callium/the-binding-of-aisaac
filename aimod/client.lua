@@ -12,6 +12,13 @@ local tcp = assert(socket.tcp())
 tcp:connect(host, port)
 is_connected = true
 
+function client.open()
+    tcp = nil
+    tcp = assert(socket.tcp())
+    tcp:connect(host, port)
+    is_connected = true
+end
+
 function client.send(message)
     -- Send a TCP Message to the python Server
     tcp:send(message)

@@ -6,8 +6,17 @@ local aiMod = RegisterMod("AIMod", 1)
 -- Create the client (running the game with '--luadebug' seemed to sove the issue)
 -- local client = require("client")
 Isaac.ConsoleOutput("MOD WORKING")
-
 local client = require("client")
+
+function aiMod:checkTCP()
+    if(Input.IsButtonPressed(Keyboard.KEY_L, 0)) then
+        client.close()
+        client.open()
+        Isaac.RenderText("TCP", 100, 50, 255, 255, 255, 5)
+    end
+end
+
+
 -- Shows that the mod is enabled and working
 function aiMod:showEnabled()
     Isaac.RenderText("AI Mod Enabled", 100, 5, 255, 255, 255, 5)
@@ -97,5 +106,6 @@ function aiMod:gatherData()
 end
 
 -- Add the callback (Tells the mod what to do)
+aiMod:AddCallback(ModCallbacks.MC_POST_RENDER, aiMod.checkTCP)
 aiMod:AddCallback(ModCallbacks.MC_POST_RENDER, aiMod.showEnabled)
 aiMod:AddCallback(ModCallbacks.MC_POST_RENDER, aiMod.gatherData)

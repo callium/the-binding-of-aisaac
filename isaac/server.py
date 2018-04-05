@@ -12,12 +12,8 @@ s.listen(1)
 conn, addr = s.accept()
 print ('Connection address:', addr)
 
-    # while 1:
-    #     data = conn.recv(BUFFER_SIZE)
-    #     if not data: break
-    #     print ("Received Data:", data)
-    
 def receive():
     data = conn.recv(BUFFER_SIZE)
-    print ("Received Data:", data)
+    # print ("Received Data:", data)
     return data
+
