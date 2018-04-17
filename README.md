@@ -32,6 +32,9 @@ In Steam, go to 'The Binding of Isaac Afterbirth +' Properties, Set Launch Optio
     --luadebug
 For some reason this is needed to allow the luasocket to work
 
+## Dependencies
+See requirements.txt
+
 ## Links
 
 Training Video: https://drive.google.com/file/d/17m-35vxboi-q3G1nC9qojVPJeRrAZuJA/view?usp=sharing

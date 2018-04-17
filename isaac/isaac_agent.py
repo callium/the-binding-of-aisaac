@@ -1,4 +1,5 @@
-# This plays the game using physical oinputs
+# This plays the game using physical inputs
+
 import pyautogui
 import random
 import time

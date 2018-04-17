@@ -1,5 +1,5 @@
 # As of right now, a standalone tcp server, but will be intergrated with the agent.
-print("TCP Server Started...\nLooking for a connection...\nStart the Game (or Restart it if it's running)")
+print("TCP Server Started...\nLooking for a connection...\nStart the Game (or Restart the mod it if it's running)")
 
 import socket
 TCP_IP = '127.0.0.1'

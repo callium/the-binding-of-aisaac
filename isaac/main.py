@@ -1,15 +1,11 @@
-import genetics_data_structures as gen
 import isaac_agent as agent
-import tensorflow as tf
 import window_controls as wc
 import random
 import server
-import time
 
 class IsaacNN:
     def __init__(self):
         pass
-
 
 def random_test(player):
     while True:
@@ -26,18 +22,16 @@ def test(player):
 
 # Get user data and save to a text file
 def train(player):
-    f = open("training_data.txt", "a+")
-    f.write("------------------------------\n")
+    print("Training, quit program to finish training")
+    f = open("training_data.csv", "a+")
     while True:
         player.unpause()
         data = server.receive()
         to_write = data.decode("utf-8")
-        if(to_write[:7] != '0 0 0 0'): # If there are no enemies, don't record any data
+        to_write = to_write.replace(" ", ",")
+        if(to_write[:7] != '0,0,0,0' and to_write[8:] != '0,0'): # If there are no enemies, don't record any data
             f.write(to_write+"\n")
     f.close()
-
-def interpret_data(data):
-    print(data)
 
 # The main loop
 if __name__ == "__main__":
