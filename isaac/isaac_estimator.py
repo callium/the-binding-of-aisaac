@@ -1,3 +1,5 @@
+'''This file contains the NN, a TensorFlow DNN estimator.'''
+
 import tensorflow as tf
 import numpy as np
 import shutil
