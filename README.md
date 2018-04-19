@@ -38,3 +38,5 @@ See requirements.txt
 ## Links
 
 Training Video: https://drive.google.com/file/d/17m-35vxboi-q3G1nC9qojVPJeRrAZuJA/view?usp=sharing
+
+1st NN Progress: https://drive.google.com/file/d/1xasceaFqN3ILtiX7_mJt7moQXTzX7pVY/view?usp=sharing
