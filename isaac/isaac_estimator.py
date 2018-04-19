@@ -5,46 +5,24 @@ _CSV_COLUMNS = ['is_enemy_above', 'is_enemy_below', 'is_enemy_left', 'is_enemy_r
 _CSV_COLUMN_DEFAULTS = [[0],[0],[0],[0],[0],[0]]
 
 def build_model_columns():
-    # is_enemy_above = tf.feature_column.categorical_column_with_vocabulary_list(
-    # 'is_enemy_above', [
-    #     '0', '1'])
-        
-    # is_enemy_below = tf.feature_column.categorical_column_with_vocabulary_list(
-    # 'is_enemy_below', [
-    #     '0', '1'])
-
-    # is_enemy_left = tf.feature_column.categorical_column_with_vocabulary_list(
-    # 'is_enemy_left', [
-    #     '0', '1'])
-
-    # is_enemy_right = tf.feature_column.categorical_column_with_vocabulary_list(
-    # 'is_enemy_right', [
-    #     '0', '1'])
-
-    # movement_dir = tf.feature_column.categorical_column_with_vocabulary_list(
-    # 'movement_dir', [
-    #     '0', '1', '2', '3', '4'])
-
-    # shot_dir = tf.feature_column.categorical_column_with_vocabulary_list(
-    # 'shot_dir', [
-    #     '0', '1', '2', '3', '4'])
-
     is_enemy_above = tf.feature_column.numeric_column('is_enemy_above')
     is_enemy_below = tf.feature_column.numeric_column('is_enemy_below')
     is_enemy_left = tf.feature_column.numeric_column('is_enemy_left')
     is_enemy_right = tf.feature_column.numeric_column('is_enemy_right')
+
+    # These are not needed as they are labels rather thatn feature columns
     # movement_dir = tf.feature_column.numeric_column('movement_dir')
     # shot_dir = tf.feature_column.numeric_column('shot_dir')
 
-    # Wide columns and deep columns.
     feature_columns = [
         is_enemy_above, is_enemy_below, is_enemy_left, is_enemy_right
     ]
-
-    # return base_columns + crossed_columns
     return feature_columns
 
 def input_fn():
+    """This function returns a dataset containing the training
+    data found in the file: training_data.csv"""
+
     assert tf.gfile.Exists('training_data.csv'), ('%s not found' % 'training_data.csv')
 
     dataset = tf.data.TextLineDataset('training_data.csv')
@@ -57,11 +35,8 @@ def input_fn():
         return features, labels
 
     dataset = dataset.map(parse_csv, num_parallel_calls=1)
-
     dataset = dataset.repeat(40)
     dataset = dataset.batch(500)
-
-    # print(dataset)
 
     return dataset
 
@@ -71,7 +46,8 @@ def build_estimator():
     model = tf.estimator.DNNClassifier(
         feature_columns=feature_columns,
         hidden_units=[10, 10],
-        n_classes=4)
+        n_classes=5,
+        model_dir="./models")
     return model
 
 def print_dataset(ds):
@@ -83,14 +59,15 @@ def print_dataset(ds):
 
 def main():
     classifier = build_estimator()
+    print(classifier)
 
     classifier.train(
-        input_fn=lambda:input_fn(),steps=50)
+        input_fn=lambda:input_fn(), steps=500)
 
-    # eval_result = classifier.evaluate(
-    #     input_fn=lambda:input_fn())
+    eval_result = classifier.evaluate(
+        input_fn=lambda:input_fn())
 
-    # print('\nTest set accuracy: {accuracy:0.3f}\n'.format(**eval_result))
+    print('\nTest set accuracy: {accuracy:0.3f}\n'.format(**eval_result))
 
 if __name__ == "__main__":
     main()
