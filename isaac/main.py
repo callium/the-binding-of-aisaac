@@ -1,5 +1,6 @@
 import isaac_agent as agent
 import window_controls as wc
+import isaac_estimator as inn
 import random
 import server
 
@@ -24,9 +25,10 @@ def test(player):
 def train(player):
     print("Training, quit program to finish training")
     f = open("training_data.csv", "a+")
+    conn = server.run_server()
     while True:
         player.unpause()
-        data = server.receive()
+        data = server.receive(conn)
         to_write = data.decode("utf-8")
         to_write = to_write.replace(" ", ",")
         if(to_write[:7] != '0,0,0,0' and to_write[8:] != '0,0'): # If there are no enemies, don't record any data
@@ -37,11 +39,13 @@ def train(player):
 if __name__ == "__main__":
     player = agent.IsaacAgent()
     while True:
-        user_in = input("Program running...\nControls:\n\tTrain (t)\n\tExecute (e)\n\tQuit(q)\n")
-        if(user_in == "t"):
+        user_in = input("Program running...\nControls:\n\tCollect Data (c)\n\tTrain (t)\n\tRun (r)\n\tQuit (q)\n")
+        if(user_in == "c"):
             train(player)
-        if(user_in == "e"):
-            test(player)
+        if(user_in == "t"):
+            inn.train()
+        if(user_in == "r"):
+            inn.test()
         if(user_in == "q"):
             break
         

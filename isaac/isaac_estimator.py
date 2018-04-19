@@ -1,5 +1,7 @@
 import tensorflow as tf
 import numpy as np
+import shutil
+import server
 
 _CSV_COLUMNS = ['is_enemy_above', 'is_enemy_below', 'is_enemy_left', 'is_enemy_right', 'movement_dir', 'shot_dir']
 _CSV_COLUMN_DEFAULTS = [[0],[0],[0],[0],[0],[0]]
@@ -35,7 +37,7 @@ def input_fn():
         return features, labels
 
     dataset = dataset.map(parse_csv, num_parallel_calls=1)
-    dataset = dataset.repeat(40)
+    dataset = dataset.repeat(50)
     dataset = dataset.batch(500)
 
     return dataset
@@ -57,17 +59,41 @@ def print_dataset(ds):
     with tf.Session() as sess:
         print(sess.run(element)) # output: [ 0.42116176  0.40666069]
 
-def main():
+def train():
+    shutil.rmtree('./models', ignore_errors=True)
+
     classifier = build_estimator()
     print(classifier)
 
     classifier.train(
-        input_fn=lambda:input_fn(), steps=500)
+        input_fn=lambda:input_fn(), steps=100)
 
     eval_result = classifier.evaluate(
         input_fn=lambda:input_fn())
 
     print('\nTest set accuracy: {accuracy:0.3f}\n'.format(**eval_result))
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
+
+def test():
+    """ This will be called to use the training data to play the game """
+    shutil.rmtree('./models', ignore_errors=True)
+
+    classifier = build_estimator()
+    print(classifier)
+
+    classifier.train(
+        input_fn=lambda:input_fn(), steps=100)
+
+    eval_result = classifier.evaluate(
+        input_fn=lambda:input_fn())
+
+    conn = server.run_server()
+
+    while True:
+        data = server.receive(conn)
+        print(data.decode("utf-8"))
+
+
+    
