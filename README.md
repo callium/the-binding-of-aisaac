@@ -28,7 +28,7 @@ Steps:
 
 * Copy the '/aimod' folder into '~/Library/Application Support/Binding of Isaac Afterbirth+ Mods' folder
 
-*In Steam, go to 'The Binding of Isaac Afterbirth +' Properties, Set Launch Options, and add the following:
+* In Steam, go to 'The Binding of Isaac Afterbirth +' Properties, Set Launch Options, and add the following:
     
     --luadebug
 
@@ -36,7 +36,7 @@ Steps:
 
 * Once you have python 3, lua, and all of the dependencies installed, you should be able to run the main file located in the '/isaac' folder using:
 
-    python3 main.py
+    >python3 main.py
 
 * From there, you must first collect data, then you can either train or run. Training is repetitive since the processes is repeated when you run the game. Running train merely tells you the NN training accuracy of your data set.
 
