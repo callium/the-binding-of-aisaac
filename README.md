@@ -30,7 +30,7 @@ Steps:
 
 * In Steam, go to 'The Binding of Isaac Afterbirth +' Properties, Set Launch Options, and add the following:
     
-    --luadebug
+    >--luadebug
 
 * This allows luasocket to work with the game.
 
@@ -42,9 +42,11 @@ Steps:
 
 
 ## Dependencies
-Python 3
-Lua
-See requirements.txt
+    Python 3
+
+    Lua
+
+    See requirements.txt
 
 ## Links
 Training Video: https://drive.google.com/file/d/17m-35vxboi-q3G1nC9qojVPJeRrAZuJA/view?usp=sharing
