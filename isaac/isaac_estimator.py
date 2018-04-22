@@ -3,7 +3,9 @@
 import tensorflow as tf
 import numpy as np
 import shutil
-import server
+import udp
+import isaac_agent as ia
+from threading import Thread
 
 _CSV_COLUMNS = ['is_enemy_above', 'is_enemy_below', 'is_enemy_left', 'is_enemy_right', 'movement_dir', 'shot_dir']
 _CSV_COLUMN_DEFAULTS = [[0],[0],[0],[0],[0],[0]]
@@ -21,6 +23,8 @@ def build_model_columns():
     feature_columns = [
         is_enemy_above, is_enemy_below, is_enemy_left, is_enemy_right
     ]
+
+    # print(feature_columns)
     return feature_columns
 
 def input_fn():
@@ -46,6 +50,7 @@ def input_fn():
 
 
 def build_estimator():
+    '''Builds the estimator by importing a CSV file and reading its data.'''
     feature_columns = build_model_columns()
     model = tf.estimator.DNNClassifier(
         feature_columns=feature_columns,
@@ -75,27 +80,59 @@ def train():
 
     print('\nTest set accuracy: {accuracy:0.3f}\n'.format(**eval_result))
 
-# if __name__ == "__main__":
-#     main()
+def convert_data_to_np_array(data):
+    data = [int(i) for i in data if i is not " "]
+    data={
+            'is_enemy_above': np.array([data[0]]),
+            'is_enemy_below': np.array([data[1]]),
+            'is_enemy_left' : np.array([data[2]]),
+            'is_enemy_right': np.array([data[3]])
+        }
+    return data
 
+def prediction_and_movement(classifier, input_data):
+    '''This moves the player based on the prediction by the NN (operates in another thread)'''
+    if(input_data[:7] != '0 0 0 0'):
+        input_data = convert_data_to_np_array(input_data)
+
+        predict_input_fn = tf.estimator.inputs.numpy_input_fn(
+            x=input_data,
+            num_epochs=1,
+            shuffle=False)
+
+        predictions = list(classifier.predict(input_fn=predict_input_fn))
+        prediction = [p["classes"] for p in predictions]
+
+        agent = ia.IsaacAgent()
+        agent.move(int(prediction[0][0]))
+
+def receive_data(sock):
+    input_data = udp.receive(sock)
+    print("input_data: {}".format(input_data))
+    input_data = input_data.decode("utf-8")
+
+    return input_data
+
+    
 def test():
     """ This will be called to use the training data to play the game """
     shutil.rmtree('./models', ignore_errors=True)
-
     classifier = build_estimator()
-    print(classifier)
-
     classifier.train(
         input_fn=lambda:input_fn(), steps=100)
-
     eval_result = classifier.evaluate(
         input_fn=lambda:input_fn())
+    print('\nTest set accuracy: {accuracy:0.3f}\n'.format(**eval_result))
 
-    conn = server.run_server()
-
+    sock = udp.run_server()
+    thread = Thread(target=prediction_and_movement, args=(classifier, input_data,))
     while True:
-        data = server.receive(conn)
-        print(data.decode("utf-8"))
+        input_data = udp.receive(sock)
+        print("input_data: {}".format(input_data))
+        input_data = input_data.decode("utf-8")
 
+        thread.start()
+        thread.join()
 
+    
     

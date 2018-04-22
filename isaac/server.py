@@ -19,5 +19,5 @@ def run_server():
 def receive(conn):
     BUFFER_SIZE = 11
     data = conn.recv(BUFFER_SIZE)
-    # print ("Received Data:", data)
+
     return data

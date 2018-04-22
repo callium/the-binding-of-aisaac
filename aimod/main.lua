@@ -4,9 +4,7 @@
 local aiMod = RegisterMod("AIMod", 1)
 
 -- Create the client (running the game with '--luadebug' seemed to sove the issue)
--- local client = require("client")
-Isaac.ConsoleOutput("MOD WORKING")
-local client = require("client")
+local client = require("udp")
 
 -- Shows that the mod is enabled and working
 function aiMod:showEnabled()

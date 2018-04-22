@@ -3,30 +3,32 @@
 
 local client = {}
 
-is_connected = false
-
 local host, port = "127.0.0.1", 5005
 local socket = require("socket")
 local tcp = assert(socket.tcp())
 
 tcp:connect(host, port)
-is_connected = true
 
-function client.open()
-    tcp = nil
-    tcp = assert(socket.tcp())
-    tcp:connect(host, port)
-    is_connected = true
+tcp:settimeout(nil)
+
+function client.receive()
+    local data, err = tcp:receive()
+
+    if err ~= nil then
+		print("Socket Error: " .. err)
+	end
+	
+	return data
 end
 
 function client.send(message)
     -- Send a TCP Message to the python Server
+    print('sending data')
     tcp:send(message)
 end
 
 function client.close()
     tcp:close()
-    is_connected = false
 end
 
 return client

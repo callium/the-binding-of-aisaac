@@ -24,19 +24,24 @@ class IsaacAgent:
 
     # Execute a deliberate movement
     def move(self, direction):
-        if(self.isPaused):
-            self.unpause()
-        else:     
-            if(direction == 0): # No movement
-                pass
-            if(direction == 1): # Up movement
-                pyautogui.press('w')
-            if(direction == 2): # Down movement
-                pyautogui.press('s')
-            if(direction == 3): # Left movement
-                pyautogui.press('a')
-            if(direction == 4): # Right movement
-                pyautogui.press('d')
+        if(direction == 0): # No movement
+            pass
+        if(direction == 1): # Up movement
+            pyautogui.keyDown('w')
+            time.sleep(.2)
+            pyautogui.keyUp('w')
+        if(direction == 2): # Down movement
+            pyautogui.keyDown('s')
+            time.sleep(.2)
+            pyautogui.keyUp('s')
+        if(direction == 3): # Left movement
+            pyautogui.keyDown('a')
+            time.sleep(.2)
+            pyautogui.keyUp('a')
+        if(direction == 4): # Right movement
+            pyautogui.keyDown('d')
+            time.sleep(.2)
+            pyautogui.keyUp('d')
             
 
     # Execute deliberate shotting
