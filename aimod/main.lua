@@ -34,10 +34,14 @@ function aiMod:gatherData()
             local render_text = "Enemy X: " .. enemy_x .. " Enemy Y: " .. enemy_y
             Isaac.RenderText(render_text, 100, 25, 255, 255, 255, 5) -- Render enemy locations (doesn't work for multiple enemies)
 
-            -- Enemy above or below
             local x_diff = math.abs(player_x - enemy_x)
-            if x_diff <= 40 then -- Enemy above
-                if player_y > enemy_y then
+            local y_diff = math.abs(player_y - enemy_y)
+            
+            local enemy_distance_from_player = math.sqrt((x_diff ^ 2) + (y_diff ^ 2))
+
+            -- Enemy above or below
+            if x_diff <= 40 then
+                if player_y > enemy_y then -- Enemy above
                     data[1] = "1"
                 end
                 if player_y < enemy_y then -- Enemy below
@@ -46,7 +50,6 @@ function aiMod:gatherData()
             end
 
             -- Enemy left or right
-            local y_diff = math.abs(player_y - enemy_y)
             if y_diff <= 40 then
                 if player_x > enemy_x then -- Enemy left
                     data[3] = "1"

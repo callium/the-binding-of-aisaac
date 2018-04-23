@@ -45,8 +45,8 @@ def input_fn():
         return features, labels
 
     dataset = dataset.map(parse_csv, num_parallel_calls=1)
-    dataset = dataset.repeat(50)
-    dataset = dataset.batch(500)
+    dataset = dataset.repeat(100)
+    dataset = dataset.batch(5000)
 
     return dataset
 
@@ -95,7 +95,7 @@ def convert_data_to_np_array(data):
 def prediction_and_movement(q, classifier):
     '''This moves the player based on the prediction by the NN (operates in another thread)'''
     while True:
-        print("Q Size:",q.qsize())
+        # print("Q Size:",q.qsize())
         input_data = q.get()
         q.queue.clear()
         if(input_data[:7] != '0 0 0 0'):
