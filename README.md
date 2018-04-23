@@ -55,4 +55,7 @@ Training Video: https://drive.google.com/file/d/17m-35vxboi-q3G1nC9qojVPJeRrAZuJ
 
 With Limited Training Data: https://drive.google.com/file/d/1TbMs6MZfoyIVG_-QZlr0hfsYRwOauywq/view?usp=sharing
 
+Well Trained (Still Not Perfect):
+https://drive.google.com/file/d/1TBjo3yK8SGEUwZ9guofvPqSDOPC7udP0/view?usp=sharing
+
 Powerpoint: https://docs.google.com/presentation/d/1X9GqDLL-TWf3Y9WV0RNP8WM14K_KBnHDlgXFi5qUEmY/edit?usp=sharing
