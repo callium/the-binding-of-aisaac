@@ -29,19 +29,19 @@ class IsaacAgent:
             pass
         if(direction == 1): # Up movement
             pyautogui.keyDown('w')
-            time.sleep(.2)
+            time.sleep(.25)
             pyautogui.keyUp('w')
         if(direction == 2): # Down movement
             pyautogui.keyDown('s')
-            time.sleep(.2)
+            time.sleep(.25)
             pyautogui.keyUp('s')
         if(direction == 3): # Left movement
             pyautogui.keyDown('a')
-            time.sleep(.2)
+            time.sleep(.25)
             pyautogui.keyUp('a')
         if(direction == 4): # Right movement
             pyautogui.keyDown('d')
-            time.sleep(.2)
+            time.sleep(.25)
             pyautogui.keyUp('d')
 
     # Execute deliberate shotting

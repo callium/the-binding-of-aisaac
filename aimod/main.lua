@@ -44,7 +44,7 @@ function aiMod:gatherData()
             data[5] = tostring(enemy_distance_from_player)
 
             -- Enemy above or below
-            if x_diff <= 30 then
+            if x_diff <= 50 then
                 if player_y > enemy_y then -- Enemy above
                     data[1] = "1"
                     data[2] = "0"
@@ -60,7 +60,7 @@ function aiMod:gatherData()
             end
 
             -- Enemy left or right
-            if y_diff <= 30 then
+            if y_diff <= 50 then
                 if player_x > enemy_x then -- Enemy left
                     data[1] = "0"
                     data[2] = "0"
