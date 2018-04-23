@@ -52,3 +52,5 @@ Steps:
 Training Video: https://drive.google.com/file/d/17m-35vxboi-q3G1nC9qojVPJeRrAZuJA/view?usp=sharing
 
 1st NN Progress: https://drive.google.com/file/d/1xasceaFqN3ILtiX7_mJt7moQXTzX7pVY/view?usp=sharing
+
+With Limited Training Data: https://drive.google.com/file/d/1TbMs6MZfoyIVG_-QZlr0hfsYRwOauywq/view?usp=sharing
