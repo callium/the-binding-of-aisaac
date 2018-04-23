@@ -47,7 +47,8 @@ if __name__ == "__main__":
     while True:
         user_in = input("Program running...\n > Collect Data (c)\n > Train (t)\n > Run (r)\n")
         if(user_in == "c"):
-            train(player)
+            # train(player)
+            print('Your training data is good, you don\'t want to do this...')
         if(user_in == "t"):
             inn.train()
         if(user_in == "r"):
