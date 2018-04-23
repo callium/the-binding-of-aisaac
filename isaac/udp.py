@@ -14,7 +14,7 @@ def run_server():
 
 def receive(sock):
     try:
-        data,address = sock.recvfrom(11)
+        data,address = sock.recvfrom(1024)
     except:
         pass
     else: 

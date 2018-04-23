@@ -9,21 +9,21 @@ import time
 from threading import Thread
 from queue import LifoQueue
 
-_CSV_COLUMNS = ['is_enemy_above', 'is_enemy_below', 'is_enemy_left', 'is_enemy_right', 'movement_dir', 'shot_dir']
-_CSV_COLUMN_DEFAULTS = [[0],[0],[0],[0],[0],[0]]
+_CSV_COLUMNS = ['is_enemy_above', 'is_enemy_below', 'is_enemy_left', 'is_enemy_right', 'enemy_distance', 'movement_dir', 'shot_dir']
+_CSV_COLUMN_DEFAULTS = [[0],[0],[0],[0],[0],[0],[0]]
+
+EPOCHS = 200
+BATCH = 40
 
 def build_model_columns():
     is_enemy_above = tf.feature_column.numeric_column('is_enemy_above')
     is_enemy_below = tf.feature_column.numeric_column('is_enemy_below')
     is_enemy_left = tf.feature_column.numeric_column('is_enemy_left')
     is_enemy_right = tf.feature_column.numeric_column('is_enemy_right')
-
-    # These are not needed as they are labels rather thatn feature columns
-    # movement_dir = tf.feature_column.numeric_column('movement_dir')
-    # shot_dir = tf.feature_column.numeric_column('shot_dir')
+    enemy_distance = tf.feature_column.numeric_column('enemy_distance')
 
     feature_columns = [
-        is_enemy_above, is_enemy_below, is_enemy_left, is_enemy_right
+        is_enemy_above, is_enemy_below, is_enemy_left, is_enemy_right, enemy_distance
     ]
 
     # print(feature_columns)
@@ -45,11 +45,10 @@ def input_fn():
         return features, labels
 
     dataset = dataset.map(parse_csv, num_parallel_calls=1)
-    dataset = dataset.repeat(100)
-    dataset = dataset.batch(5000)
+    dataset = dataset.repeat(EPOCHS)
+    dataset = dataset.batch(BATCH)
 
     return dataset
-
 
 def build_estimator():
     '''Builds the estimator by importing a CSV file and reading its data.'''
@@ -57,7 +56,7 @@ def build_estimator():
     model = tf.estimator.DNNClassifier(
         feature_columns=feature_columns,
         hidden_units=[10, 10],
-        n_classes=5,
+        n_classes=6,
         model_dir="./models")
     return model
 
@@ -75,7 +74,7 @@ def train():
     print(classifier)
 
     classifier.train(
-        input_fn=lambda:input_fn(), steps=100)
+        input_fn=lambda:input_fn(), steps=EPOCHS)
 
     eval_result = classifier.evaluate(
         input_fn=lambda:input_fn())
@@ -88,7 +87,8 @@ def convert_data_to_np_array(data):
             'is_enemy_above': np.array([data[0]]),
             'is_enemy_below': np.array([data[1]]),
             'is_enemy_left' : np.array([data[2]]),
-            'is_enemy_right': np.array([data[3]])
+            'is_enemy_right': np.array([data[3]]),
+            'enemy_distance': np.array([data[4]])
         }
     return data
 
@@ -97,6 +97,7 @@ def prediction_and_movement(q, classifier):
     while True:
         # print("Q Size:",q.qsize())
         input_data = q.get()
+        print('Input Data:',input_data)
         q.queue.clear()
         if(input_data[:7] != '0 0 0 0'):
             input_data = convert_data_to_np_array(input_data)
@@ -127,8 +128,9 @@ def test():
     """ This will be called to use the training data to play the game """
     shutil.rmtree('./models', ignore_errors=True)
     classifier = build_estimator()
+    print(classifier)
     classifier.train(
-        input_fn=lambda:input_fn(), steps=100)
+        input_fn=lambda:input_fn(), steps=EPOCHS)
     eval_result = classifier.evaluate(
         input_fn=lambda:input_fn())
     print('\nTest set accuracy: {accuracy:0.3f}\n'.format(**eval_result))

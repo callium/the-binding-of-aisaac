@@ -19,7 +19,7 @@ def train(player):
             data = udp.receive(sock)
         to_write = data.decode("utf-8")
         to_write = to_write.replace(" ", ",")
-        if(to_write[:7] != '0,0,0,0' and to_write[8:] != '0,0'): # If there are no enemies, don't record any data
+        if(to_write[:7] != '0,0,0,0' and to_write[-3:] != '0,0'): # If there are no enemies, don't record any data
             f.write(to_write+"\n")
     f.close()
 
