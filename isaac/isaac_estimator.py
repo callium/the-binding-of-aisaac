@@ -5,7 +5,9 @@ import numpy as np
 import shutil
 import udp
 import isaac_agent as ia
+import time
 from threading import Thread
+from queue import LifoQueue
 
 _CSV_COLUMNS = ['is_enemy_above', 'is_enemy_below', 'is_enemy_left', 'is_enemy_right', 'movement_dir', 'shot_dir']
 _CSV_COLUMN_DEFAULTS = [[0],[0],[0],[0],[0],[0]]
@@ -90,30 +92,37 @@ def convert_data_to_np_array(data):
         }
     return data
 
-def prediction_and_movement(classifier, input_data):
+def prediction_and_movement(q, classifier):
     '''This moves the player based on the prediction by the NN (operates in another thread)'''
-    if(input_data[:7] != '0 0 0 0'):
-        input_data = convert_data_to_np_array(input_data)
+    while True:
+        print("Q Size:",q.qsize())
+        input_data = q.get()
+        q.queue.clear()
+        if(input_data[:7] != '0 0 0 0'):
+            input_data = convert_data_to_np_array(input_data)
 
-        predict_input_fn = tf.estimator.inputs.numpy_input_fn(
-            x=input_data,
-            num_epochs=1,
-            shuffle=False)
+            predict_input_fn = tf.estimator.inputs.numpy_input_fn(
+                x=input_data,
+                num_epochs=1,
+                shuffle=False)
 
-        predictions = list(classifier.predict(input_fn=predict_input_fn))
-        prediction = [p["classes"] for p in predictions]
+            predictions = list(classifier.predict(input_fn=predict_input_fn))
+            prediction = [p["classes"] for p in predictions]
 
-        agent = ia.IsaacAgent()
-        agent.move(int(prediction[0][0]))
+            agent = ia.IsaacAgent()
+            agent.move(int(prediction[0][0]))
 
-def receive_data(sock):
-    input_data = udp.receive(sock)
-    print("input_data: {}".format(input_data))
-    input_data = input_data.decode("utf-8")
+def receive_data(q, sock):
+    '''UDP receive message stream (operates in another thread)'''
+    while True:
+        input_data = udp.receive(sock)
+        while(input_data == None):
+            input_data = udp.receive(sock)
 
-    return input_data
+        # print("input_data: {}".format(input_data))
+        input_data = input_data.decode("utf-8")
+        q.put(input_data)
 
-    
 def test():
     """ This will be called to use the training data to play the game """
     shutil.rmtree('./models', ignore_errors=True)
@@ -125,14 +134,18 @@ def test():
     print('\nTest set accuracy: {accuracy:0.3f}\n'.format(**eval_result))
 
     sock = udp.run_server()
-    thread = Thread(target=prediction_and_movement, args=(classifier, input_data,))
-    while True:
-        input_data = udp.receive(sock)
-        print("input_data: {}".format(input_data))
-        input_data = input_data.decode("utf-8")
 
-        thread.start()
-        thread.join()
+    q = LifoQueue(maxsize=0)
+
+    udp_stream = Thread(target=receive_data, args=(q, sock,))
+    udp_stream.start()
+    nn = Thread(target=prediction_and_movement, args=(q, classifier))
+    nn.start()
+
+    
+        
+
+        
 
     
     

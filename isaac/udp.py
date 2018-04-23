@@ -1,3 +1,5 @@
+# Contains the logic for my udp server
+
 def run_server():
     import socket
 
@@ -6,11 +8,14 @@ def run_server():
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.bind((UDP_IP, UDP_PORT))
-    
+    sock.setblocking(0)
+
     return sock
 
 def receive(sock):
-    data, addr = sock.recvfrom(1024) # buffer size is 1024 bytes
-
-    return data
-
+    try:
+        data,address = sock.recvfrom(11)
+    except:
+        pass
+    else: 
+        return data

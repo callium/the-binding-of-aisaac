@@ -4,6 +4,7 @@ import pyautogui
 import random
 import time
 import window_controls as wc
+from threading import Thread
 
 # The Isaac Agent Class
 class IsaacAgent:
@@ -42,7 +43,6 @@ class IsaacAgent:
             pyautogui.keyDown('d')
             time.sleep(.2)
             pyautogui.keyUp('d')
-            
 
     # Execute deliberate shotting
     def shoot(self, direction):

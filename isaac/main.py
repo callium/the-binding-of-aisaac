@@ -10,11 +10,13 @@ import udp
 # Get user data and save to a text file
 def train(player):
     print("Training, quit program to finish training")
-    f = open("training_data.csv", "a+")
+    f = open("training_data.csv", "w+")
     sock = udp.run_server()
     while True:
         player.unpause()
         data = udp.receive(sock)
+        while(data == None):
+            data = udp.receive(sock)
         to_write = data.decode("utf-8")
         to_write = to_write.replace(" ", ",")
         if(to_write[:7] != '0,0,0,0' and to_write[8:] != '0,0'): # If there are no enemies, don't record any data
@@ -24,6 +26,7 @@ def train(player):
 def test_server_udp():
     sock = udp.run_server()
     while True:
+        user_in = input('press r to receive\n')
         data = udp.receive(sock)
         print("Received: {}".format(data))
 
@@ -31,7 +34,7 @@ def test_server_udp():
 if __name__ == "__main__":
     player = agent.IsaacAgent()
     while True:
-        user_in = input("Program running...\nControls:\n\tCollect Data (c)\n\tTrain (t)\n\tRun (r)\n")
+        user_in = input("Program running...\n > Collect Data (c)\n > Train (t)\n > Run (r)\n")
         if(user_in == "c"):
             train(player)
         if(user_in == "t"):
